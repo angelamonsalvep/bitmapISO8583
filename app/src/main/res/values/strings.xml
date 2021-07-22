@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bitmap ISO8583</string>
+
+    <string name="bitmapString">Bitmap String</string>
+
+    <string name="calculate">Calcular</string>
+</resources>
