@@ -24,11 +24,12 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_idcard"
+            android:id="@+id/etbitmap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/bitmapString"
-            android:inputType="number" />
+            android:inputType="textCapCharacters"
+            android:digits="0123456789ABCDEF"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +38,7 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/login_submit"
+                android:id="@+id/calculate_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
@@ -47,7 +48,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="2sp"
             android:orientation="vertical">
 
             <ListView

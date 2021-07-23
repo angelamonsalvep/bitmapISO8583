@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +17,10 @@ import com.example.bitmapiso8583.R;
 
 import java.util.ArrayList;
 
-public class FieldsAdapter extends BaseAdapter {
+public class FieldsAdapter extends BaseAdapter  {
+
+
+    int valueTemp;
 
 
     private Context _context;
@@ -31,17 +35,17 @@ public class FieldsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return this._fields.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return this._fields.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -63,7 +67,6 @@ public class FieldsAdapter extends BaseAdapter {
 
         // nos traemos los datos dependiendo del valor
         Field field= this._fields.get(position);
-        field.setNumberField(position);
         if(field.getValueField()==1) {
             holder.checkNumberField.setChecked(true);
         } else {
@@ -71,13 +74,19 @@ public class FieldsAdapter extends BaseAdapter {
         }
         holder.checkNumberField.setText("Campo " + field.getNumberField());
         holder.tvNameField.setText(field.getNameField());
+
+
+
         return convertView;
 
 
     }
 
+
+
+
     static class ViewHolder {
-        private CheckBox checkNumberField;
-        private TextView tvNameField;
+        public CheckBox checkNumberField;
+        public TextView tvNameField;
     }
 }
