@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     FieldsAdapter fieldsAdapter;
+    Field field;
 
     Button btnCalculate;
     EditText etBitmapString;
@@ -74,34 +75,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listFields.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         listFields.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-
-                CheckBox chkBox = (CheckBox) view.findViewById(R.id.checkField);
-                chkBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(chkBox.isChecked()) {
-                            listFieldsArray.get(position).setValueField(1);
-                        } else {
-                            listFieldsArray.get(position).setValueField(0);
-                        }
-                        _inflateFilds();
-
-                    }
-                });
+                /*Field field = new Field();
+                if(listFields.isItemChecked(position)) {
 
 
+                    field.setValueField(1);
+
+                } else {
+                    field.setValueField(0);
+                }
+
+                field.setNumberField(position+1);
+                field.setNameField(listNameFieldsArray.get(position));
+                listFieldsArray.set(position,field);
+
+                _inflateFilds();*/
 
 
 
@@ -240,6 +234,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private String hexToBin (String hex){
+        int i = Integer.parseInt(hex);
+        String bin = Integer.toBinaryString(i);
+        while (bin.length()<4){
+            bin="0"+bin;
+        }
+        return bin;
+
+    }
+
     private String parseHexBinary(String hex) {
         String digits = "0123456789ABCDEF";
         hex = hex.toUpperCase();
@@ -249,13 +253,15 @@ public class MainActivity extends AppCompatActivity {
             char c = hex.charAt(i);
             int d = digits.indexOf(c);
             if(d == 0)	binaryString += "0000";
-            else  binaryString += Integer.toBinaryString(d);
+            else  binaryString += hexToBin(Integer.toString(d));
         }
+        int nb= binaryString.length();
         return binaryString;
     }
 
     private void setListValues(String binary) {
         int i;
+        int l= binary.length();
         for(i=0; i<binary.length(); i++) {
 
             listValuesFieldsArray.set(i, Character.getNumericValue(binary.charAt(i)));
