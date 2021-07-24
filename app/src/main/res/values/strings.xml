@@ -4,4 +4,6 @@
     <string name="bitmapString">Bitmap String</string>
 
     <string name="calculate">Calcular</string>
+    <string name="reset"><u>bitmap por defecto</u></string>
+
 </resources>

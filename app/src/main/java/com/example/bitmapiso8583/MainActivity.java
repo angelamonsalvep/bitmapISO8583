@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     FieldsAdapter fieldsAdapter;
-    Field field;
 
     Button btnCalculate;
     EditText etBitmapString;
@@ -31,129 +30,80 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> listNameFieldsArray= new ArrayList<>();
     public ArrayList<Integer> listValuesFieldsArray=new ArrayList<>();
     ListView listFields;
-    String current;
-    String strnew;
     String hexa;
-    String binary;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getWindow().getDecorView().clearFocus();
+
         listFields= (ListView) findViewById(R.id.list_fields);
         etBitmapString =findViewById(R.id.etbitmap);
         btnCalculate= findViewById(R.id.calculate_submit);
 
-        etBitmapString.setFilters(new InputFilter[] {new InputFilter.LengthFilter(16)});
+        etBitmapString.setFilters(new InputFilter[] {new InputFilter.LengthFilter(16)}); //filtro que permite ingresar solo caracteres hexadecimales
 
-        etBitmapString.setText("0000000000000000");
+        etBitmapString.setText("0000000000000000");  //mostrar en edittext string de "0"
 
-        hexa= etBitmapString.getText().toString();
+        hexa= etBitmapString.getText().toString();  //se obtiene el string hexadecimal
 
-        fillListValues(parseHexBinary(hexa));
+        fillListValues(parseHexBinary(hexa));  //se llena la lista de binarios con el string hexadecimal
 
-        fillListNameFields();
+        fillListNameFields(); //se llena la lista de nombres de campos
 
-        fillListFields();
+        fillListFields(); //se llena la lista de campos
 
-        _inflateFilds();
+        _inflateFilds(); //se carga el list view con el adaptador
 
 
 
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hexa= etBitmapString.getText().toString();
 
-                setListValues(parseHexBinary(hexa));
+                hexa= etBitmapString.getText().toString();  //se obtiene el hexadecimal
 
-                setListFields();
+                setListValues(parseHexBinary(hexa));  // actualiza la lista de binarios
 
-                _inflateFilds();
+                setListFields();        //actualiza la lista de campos
 
-            }
-        });
-
-
-        listFields.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                /*Field field = new Field();
-                if(listFields.isItemChecked(position)) {
-
-
-                    field.setValueField(1);
-
-                } else {
-                    field.setValueField(0);
-                }
-
-                field.setNumberField(position+1);
-                field.setNameField(listNameFieldsArray.get(position));
-                listFieldsArray.set(position,field);
-
-                _inflateFilds();*/
-
-
+                _inflateFilds();   //vuelve a mostrar los datos en el listview
 
             }
         });
+
 
         etBitmapString.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
-
-
-
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                //strnew= etBitmapString.getText().subSequence(before,count).toString();
-
-                //Character.toUpperCase(s.charAt(count));
-                //current.replace(s.charAt(count-1), s.charAt(count));
-
-                //etBitmapString.setText(etBitmapString.getText().delete(count-2, count-1));
-
-
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
-                //etBitmapString.setText(strnew);
 
-                hexa= etBitmapString.getText().toString();
-                binary= parseHexBinary(hexa);
-                Toast.makeText(MainActivity.this, binary, Toast.LENGTH_SHORT).show();
+                //esto permite completar con 0 a la derecha si el hexadecimal tiene menos de 15 caracteres
+                while (s.length()<15){
+                    s=s.append("0");
 
+                }
 
             }
         });
 
-
-
-
-
-
-
     }
 
-
-
+    //se carga el listview con cada cardview
     private void _inflateFilds() {
         fieldsAdapter = new FieldsAdapter(MainActivity.this, R.layout.card_field, listFieldsArray);
         listFields.setAdapter(fieldsAdapter);
     }
 
+    //metodo para llenar lista de los nombres de cada campo
     private void fillListNameFields() {
         listNameFieldsArray.add("Bit Map Extended");
         listNameFieldsArray.add("Primary account number (PAN)");
@@ -205,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         listNameFieldsArray.add("Additional data - Private");
         listNameFieldsArray.add("Currency code, transaction");
         listNameFieldsArray.add("Currency code, settlement");
-        listNameFieldsArray.add("BCurrency code, cardholder billing");
+        listNameFieldsArray.add("Currency code, cardholder billing");
         listNameFieldsArray.add("Personal Identification number data");
         listNameFieldsArray.add("Security related control information");
         listNameFieldsArray.add("Additional amounts");
@@ -223,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //metodo para llenar la lista de binarios de cada campo
     private void fillListValues(String binary) {
         int i;
         for(i=0; i<binary.length(); i++) {
@@ -230,10 +181,9 @@ public class MainActivity extends AppCompatActivity {
             listValuesFieldsArray.add(Character.getNumericValue(binary.charAt(i)));
 
         }
-
-
     }
 
+    //metodo para convertir un hexadecimal a binario(formato de 4 digitos)
     private String hexToBin (String hex){
         int i = Integer.parseInt(hex);
         String bin = Integer.toBinaryString(i);
@@ -244,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //metodo para crear string con el hexadecimal completo
     private String parseHexBinary(String hex) {
         String digits = "0123456789ABCDEF";
         hex = hex.toUpperCase();
@@ -259,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         return binaryString;
     }
 
+    //metodo para actualizar lista de binarios
     private void setListValues(String binary) {
         int i;
         int l= binary.length();
@@ -269,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //metodo para actualizar lista de campos
     private void setListFields() {
         int i;
         for(i=0; i<64; i++) {
@@ -281,9 +234,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //metodo para lleanr lista de campos
     private void fillListFields() {
-
-
         int i;
         for(i=0; i<64; i++) {
             Field field = new Field();
